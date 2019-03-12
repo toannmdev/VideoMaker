@@ -60,6 +60,9 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
     private boolean isPauseVideo = false;
     private boolean isAddAudioVideo = false;
 
+    private String testInputPath = "";
+    private boolean runCMDAddImage = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,8 +206,10 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
         outputSlideVideo = FileUtil.getSlideVideo() + "/slide_video_" + System.currentTimeMillis() + ".mp4";
         execFFmpegBinary(FFmpegCmdUtil.cmdCreateVideo(size, pathInputImage, outputSlideVideo), KEY_CMD_CREATE_VIDEO);
 
+        testInputPath = pathInputImage;
 
-        /// test
+
+
 //        execFFmpegBinary(FFmpegCmdUtil.cmdAddIMageToVideo(pathInputImage, outputSlideVideo,
 //                20, 20), KEY_CMD_CREATE_VIDEO);
 
@@ -240,6 +245,15 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
                         if (new File(outputSlideVideo).exists()) {
                             contentUri = Uri.parse(outputSlideVideo);
                             preparePlayer();
+
+
+                            if(!runCMDAddImage) {
+                                // toannm test cmd
+                                Log.e("ToanNM", "creating video with image -> " + testInputPath);
+                                String _outputSlideVideo = FileUtil.getSlideVideo() + "/toannm_test_video" + System.currentTimeMillis() + ".mp4";
+                                execFFmpegBinary(FFmpegCmdUtil.cmdAddIMageToVideo(testInputPath, _outputSlideVideo, 50, 50), KEY_CMD_CREATE_VIDEO);
+                                runCMDAddImage = true;
+                            }
                         }
                     } else if (key == KEY_CMD_ADD_AUDIO_VIDEO) {
                         if (new File(outputMyvideoAudio).exists()) {

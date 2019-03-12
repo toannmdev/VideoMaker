@@ -40,7 +40,8 @@ public class FFmpegCmdUtil {
     public static String[] cmdAddIMageToVideo(String linkvideo,String linkOutput,int left,int top){
         String linkImage=FileUtil.getVideoEffect()+"/gif_money.gif";
         Logger.d(linkImage);
-        String cmd="-i " + linkvideo + " -i " + linkImage + " -filter_complex [0:v][1:v]overlay="+left+":"+top+" -vcodec mpeg4 -q:v 3 -acodec copy " + linkOutput;
+//        String cmd= "-framerate 1/" + 4.0F + " -start_number 0 "+ "-i " + linkvideo + " -i " + linkImage + " -filter_complex [0:v][1:v]overlay="+left+":"+top+" -vcodec mpeg4 -q:v 3 -acodec copy " + linkOutput;
+        String cmd= "-framerate 1/" + 4.0F + " -start_number 0 "+ "-i " + linkvideo + " -i " + linkImage + " -filter_complex [0:v][1:v]overlay="+left+":"+top+":enable=between(t\\,"+0+"\\,"+4+") -vframes 100 -vcodec mpeg4 -q:v 3 -r 20 -acodec copy " + linkOutput;
         String[] command = cmd.split(" ");
         return command;
     }
