@@ -11,47 +11,43 @@ import com.hiep.video.maker.system.Config;
 /**
  * Created by admin on 12/16/2015.
  */
-public  class AnimationNew {
+public class AnimationView {
 
-    public static int mDuration = 300;
+    private int mDuration = 300;
 
-    public static void startAnimation(View root, AnimationType mAnimationType){
-        runAnimation(root, mAnimationType);
-    }
-
-    public static void runAnimation(View view, AnimationType type) {
+    public static void runAnimation(View view, int mDuration, AnimationType type) {
         switch (type) {
             case ROTATE:
-                runRotateAnimation(view);
+                runRotateAnimation(view, mDuration);
                 break;
             case ALPHA:
-                runAlphaAnimation(view);
+                runAlphaAnimation(view, mDuration);
                 break;
             case HORIZION_LEFT:
-                runHorizonLeftAnimation(view);
+                runHorizonLeftAnimation(view, mDuration);
                 break;
             case HORIZION_RIGHT:
-                runHorizonRightAnimation(view);
+                runHorizonRightAnimation(view, mDuration);
                 break;
             case HORIZON_CROSS:
                 // NOT SUPPORT NOW
                 // May be something for List
                 break;
             case SCALE:
-                runScaleAnimation(view);
+                runScaleAnimation(view, mDuration);
                 break;
             case FLIP_HORIZON:
-                runFlipHorizonAnimation(view);
+                runFlipHorizonAnimation(view, mDuration);
                 break;
             case FLIP_VERTICAL:
-                runFlipVertialAnimation(view);
+                runFlipVertialAnimation(view, mDuration);
                 break;
             default:
                 break;
         }
     }
 
-    public static void runAlphaAnimation(View view) {
+    public static void runAlphaAnimation(View view, int mDuration) {
         view.setAlpha(0);
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "alpha",
                 0, 1);
@@ -60,8 +56,7 @@ public  class AnimationNew {
         objectAnimator.start();
     }
 
-
-    public static void runHorizonLeftAnimation(View view) {
+    public static void runHorizonLeftAnimation(View view, int mDuration) {
         view.setAlpha(0);
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view,
                 "translationX", Config.SCREENWIDTH, 0);
@@ -74,7 +69,7 @@ public  class AnimationNew {
         set.start();
     }
 
-    public static void runHorizonRightAnimation(View view) {
+    public static void runHorizonRightAnimation(View view, int mDuration) {
         view.setAlpha(0);
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view,
                 "translationX", Config.SCREENWIDTH, 0);
@@ -87,8 +82,7 @@ public  class AnimationNew {
         set.start();
     }
 
-
-    public static void runRotateAnimation(View view) {
+    public static void runRotateAnimation(View view, int mDuration) {
         view.setAlpha(0);
         AnimatorSet set = new AnimatorSet();
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view,
@@ -109,7 +103,7 @@ public  class AnimationNew {
         set.start();
     }
 
-    public static void runScaleAnimation(View view) {
+    public static void runScaleAnimation(View view, int mDuration) {
         view.setAlpha(0);
         AnimatorSet set = new AnimatorSet();
 
@@ -124,7 +118,7 @@ public  class AnimationNew {
         set.start();
     }
 
-    public static void runFlipVertialAnimation(View view) {
+    public static void runFlipVertialAnimation(View view, int mDuration) {
         view.setAlpha(0);
         AnimatorSet set = new AnimatorSet();
         ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(view,
@@ -136,7 +130,7 @@ public  class AnimationNew {
         set.start();
     }
 
-    public static void runFlipHorizonAnimation(View view) {
+    public static void runFlipHorizonAnimation(View view, int mDuration) {
         view.setAlpha(0);
         AnimatorSet set = new AnimatorSet();
         ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(view,

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.hiep.video.maker.R;
 import com.hiep.video.maker.ui.adapter.FilterAdapter;
 import com.hiep.video.maker.util.Logger;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
@@ -64,6 +66,26 @@ public class FilterFragment extends Fragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         mContext=getActivity();
         editorActivity=(EditorActivity)getActivity();
+
+
+
+        final R.drawable drawableResources = new R.drawable();
+        final Class<R.drawable> c = R.drawable.class;
+        final Field[] fields = c.getDeclaredFields();
+
+        for (int i = 0, max = fields.length; i < max; i++) {
+            final int resourceId;
+            try {
+                resourceId = fields[i].getInt(drawableResources);
+                String name = fields[i].getName();
+                if(name.startsWith("grad")){
+                    Log.e("Debug", "found name -> " + name + "____" + resourceId);
+                } else Log.e("DebugApp", "name -> " + name + "____" + resourceId);
+            } catch (Exception e) {
+                continue;
+            }
+            /* make use of resourceId for accessing Drawables here */
+        }
     }
 
     @Override

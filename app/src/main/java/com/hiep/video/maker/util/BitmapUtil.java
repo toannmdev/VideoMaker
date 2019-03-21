@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -226,7 +227,7 @@ public class BitmapUtil {
     }
 
     public static Bitmap drawableToBitmap(NinePatchDrawable paramNinePatchDrawable, int paramInt1, int paramInt2) {
-        if (paramNinePatchDrawable.getOpacity() != -1) ;
+        if (paramNinePatchDrawable.getOpacity() != PixelFormat.OPAQUE) ;
         for (Bitmap.Config localConfig = Bitmap.Config.ARGB_8888; ; localConfig = Bitmap.Config.RGB_565) {
             Bitmap localBitmap = Bitmap.createBitmap(paramInt1, paramInt2, localConfig);
             Canvas localCanvas = new Canvas(localBitmap);
@@ -548,7 +549,6 @@ public class BitmapUtil {
 
         return path;
     }
-
 
     public static Bitmap scaleBitmap(Bitmap bitmap, int maxwidth){
         int w = maxwidth;

@@ -210,6 +210,7 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
 
 
 
+
 //        execFFmpegBinary(FFmpegCmdUtil.cmdAddIMageToVideo(pathInputImage, outputSlideVideo,
 //                20, 20), KEY_CMD_CREATE_VIDEO);
 
@@ -222,7 +223,6 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
         outputMyvideoAudio = FileUtil.getSlideVideo() + "/audio_video_" + System.currentTimeMillis() + ".mp4";
         execFFmpegBinary(FFmpegCmdUtil.cmdAddAudiotoVideo(linkvideo, linkAudio, outputMyvideoAudio), KEY_CMD_ADD_AUDIO_VIDEO);
     }
-
 
     private void execFFmpegBinary(final String[] command, final int key) {
         try {
@@ -241,11 +241,11 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
 
                 @Override
                 public void onSuccess(String s) {
+                    Log.e("DebugApp", "onCommandSuccess -> " + s);
                     if (key == KEY_CMD_CREATE_VIDEO) {
                         if (new File(outputSlideVideo).exists()) {
                             contentUri = Uri.parse(outputSlideVideo);
                             preparePlayer();
-
 
                             if(!runCMDAddImage) {
                                 // toannm test cmd

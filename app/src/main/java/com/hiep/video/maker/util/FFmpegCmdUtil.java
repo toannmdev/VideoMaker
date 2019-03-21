@@ -1,55 +1,63 @@
 package com.hiep.video.maker.util;
 
-import android.os.Environment;
 import android.util.Log;
 
 /**
  * Created by Hiep on 7/14/2016.
  */
 public class FFmpegCmdUtil {
-    public static final String linkBorder=FileUtil.getImageBorder()+"/border_video.png";;
-    public static String[] cmdCreateVideo(int frame,String videoSource, String outPut){
-        float duration_frame=1.0F;
-        if (frame<= 20) {
+    public static final String linkBorder = FileUtil.getImageBorder() + "/border_video.png";
+    ;
+
+    public static String[] cmdCreateVideo(int frame, String videoSource, String outPut) {
+        float duration_frame = 1.0F;
+        if (frame <= 20) {
             duration_frame = 4.0F;
-        }else {
+        } else {
             duration_frame = 0.6F;
         }
         Log.e("ToanNM", "createVideo -> videoSource -> " + videoSource);
         String str5 = "-framerate 1/" + duration_frame + " -start_number 0 -i " + videoSource + " -vcodec mpeg4 -q:v 3 -r 20 -vf scale=480x480 " + outPut;
+        Log.e("ToanNM_DEBUG_APP", "cmdCreateVideo -> " + str5);
+
+        String[] ss = str5.split(" ");
+        for (String s : ss) {
+            Log.e("ToanNM_DEBUG_APP", "command ->" + s);
+        }
         return str5.split(" ");
     }
 
-    public static String[] cmdAddAudiotoVideo(String linkvideo, String linkAudio,String linkOutput){
-        String cmd="-i@#" + linkvideo + "@#-i@#" + linkAudio + "@#-vcodec@#" + "mpeg4@#" + "-q:v@#" + "3" + "@#-c:v@#" + "copy@#" + "-c:a@#" + "aac@#" + "-strict@#" + "experimental@#" + "-shortest@#" + linkOutput;
+    public static String[] cmdAddAudiotoVideo(String linkvideo, String linkAudio, String linkOutput) {
+        String cmd = "-i@#" + linkvideo + "@#-i@#" + linkAudio + "@#-vcodec@#" + "mpeg4@#" + "-q:v@#" + "3" + "@#-c:v@#" + "copy@#" + "-c:a@#" + "aac@#" + "-strict@#" + "experimental@#" + "-shortest@#" + linkOutput;
         String[] command = cmd.split("@#");
         return command;
     }
-    public static String[] cmdAddVideoToVideo(String linkvideo,String linkVideoEffect,String linkOutput){
-        String cmd="-i " + linkvideo + " -i " + linkVideoEffect + " -filter_complex [0:v][1:v]blend=shortest=1:all_mode='overlay':c0_opacity=0.1 -vcodec mpeg4 -q:v 3 -strict experimental -shortest " + linkOutput;
+
+    public static String[] cmdAddVideoToVideo(String linkvideo, String linkVideoEffect, String linkOutput) {
+        String cmd = "-i " + linkvideo + " -i " + linkVideoEffect + " -filter_complex [0:v][1:v]blend=shortest=1:all_mode='overlay':c0_opacity=0.1 -vcodec mpeg4 -q:v 3 -strict experimental -shortest " + linkOutput;
         String[] command = cmd.split(" ");
         return command;
     }
 
-    public static String[] cmdAddBorderToVideo(String linkvideo,String linkOutput){
-        String cmd="-i " + linkvideo + " -i " + linkBorder + " -filter_complex [0:v][1:v]overlay=0:0 -vcodec mpeg4 -q:v 3 -acodec copy " + linkOutput;
+    public static String[] cmdAddBorderToVideo(String linkvideo, String linkOutput) {
+        String cmd = "-i " + linkvideo + " -i " + linkBorder + " -filter_complex [0:v][1:v]overlay=0:0 -vcodec mpeg4 -q:v 3 -acodec copy " + linkOutput;
         String[] command = cmd.split(" ");
         return command;
     }
 
-    public static String[] cmdAddIMageToVideo(String linkvideo,String linkOutput,int left,int top){
-        String linkImage=FileUtil.getVideoEffect()+"/gif_money.gif";
+    public static String[] cmdAddIMageToVideo(String linkvideo, String linkOutput, int left, int top) {
+        String linkImage = FileUtil.getVideoEffect() + "/gif_money.gif";
         Logger.d(linkImage);
 //        String cmd= "-framerate 1/" + 4.0F + " -start_number 0 "+ "-i " + linkvideo + " -i " + linkImage + " -filter_complex [0:v][1:v]overlay="+left+":"+top+" -vcodec mpeg4 -q:v 3 -acodec copy " + linkOutput;
-        String cmd= "-framerate 1/" + 4.0F + " -start_number 0 "+ "-i " + linkvideo + " -i " + linkImage + " -filter_complex [0:v][1:v]overlay="+left+":"+top+":enable=between(t\\,"+0+"\\,"+4+") -vframes 100 -vcodec mpeg4 -q:v 3 -r 20 -acodec copy " + linkOutput;
+        String cmd = "-framerate 1/" + 4.0F + " -start_number 0 " + "-i " + linkvideo + " -i " + linkImage + " -filter_complex [0:v][1:v]overlay=" + left + ":" + top + ":enable=between(t\\," + 0 + "\\," + 4 + ") -vframes 100 -vcodec mpeg4 -q:v 3 -r 20 -acodec copy " + linkOutput;
         String[] command = cmd.split(" ");
         return command;
     }
 
-    public static String[] cmdAddsticker(String linkvideo,String linkOutput,String linkSticker,int left,int top,int startTime,int endTime){
+    public static String[] cmdAddsticker(String linkvideo, String linkOutput, String linkSticker, int left, int top, int startTime, int endTime) {
 
         Logger.d(linkSticker);
-        String cmd="-i " + linkvideo + " -i " + linkSticker + " -filter_complex [0:v][1:v]overlay="+left+":"+top+":enable=between(t\\,"+startTime+"\\,"+endTime+") -codec:a copy " + linkOutput;
+        String cmd = "-i " + linkvideo + " -i " + linkSticker + " -filter_complex [0:v][1:v]overlay=" + left + ":" + top + ":enable=between(t\\," + startTime + "\\," + endTime + ") -codec:a copy " + linkOutput;
 //        String cmd="-i " + linkvideo + " -i " + linkSticker + " -filter_complex [0:v][1:v]overlay=25:25"+":enable=between(t\\,"+startTime+"\\,"+endTime+") -codec:a copy " + linkOutput;
 //        String cmd="-i " + linkvideo + " -i " + linkSticker + " -filter_complex [0:v][1:v]overlay="+left+":"+top+":enable=between(t\\,"+startTime+"\\,"+endTime+") -vcodec mpeg4 -q:v 3 -acodec copy " + linkOutput;
 
@@ -79,4 +87,6 @@ public class FFmpegCmdUtil {
         String[] command = cmd.split(" ");
         return command;
     }
+
+
 }
